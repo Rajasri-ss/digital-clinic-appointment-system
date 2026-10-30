@@ -84,7 +84,7 @@ public class PatientService {
         logger.info("Fetching stats for user ID: {}", userId);
         Patient patient = patientRepository.findByUser_Id(userId)
                 .orElseThrow(() -> new RuntimeException("Patient profile not found"));
-        
+
         Map<String, Object> stats = new HashMap<>();
         stats.put("totalAppointments", appointmentRepository.countByPatientId(patient.getId()));
         stats.put("upcomingCount", appointmentRepository.countUpcomingAppointmentsByPatientId(patient.getId()));
@@ -99,19 +99,19 @@ public class PatientService {
                 .orElseThrow(() -> new RuntimeException("Patient profile not found"));
 
         Map<String, Object> dashboard = new HashMap<>();
-        
+
         // Patient profile info
         dashboard.put("patientName", patient.getFullName());
         dashboard.put("bloodGroup", patient.getBloodGroup());
         dashboard.put("allergies", patient.getAllergies());
         dashboard.put("emergencyContact", patient.getEmergencyContact());
         dashboard.put("emergencyContactName", patient.getEmergencyContactName());
-        
+
         // Appointment stats
         dashboard.put("upcomingAppointments", appointmentRepository.countUpcomingAppointmentsByPatientId(patient.getId()));
         dashboard.put("completedAppointments", appointmentRepository.countCompletedAppointmentsByPatientId(patient.getId()));
         dashboard.put("totalAppointments", appointmentRepository.countByPatientId(patient.getId()));
-        
+
         // Recent appointments (limit to 5)
         List<Map<String, Object>> recentAppointments = appointmentRepository
                 .findUpcomingAppointmentsByPatientId(patient.getId())
@@ -131,9 +131,9 @@ public class PatientService {
                     return aptMap;
                 })
                 .collect(Collectors.toList());
-        
+
         dashboard.put("recentAppointments", recentAppointments);
-        
+
         return dashboard;
     }
 

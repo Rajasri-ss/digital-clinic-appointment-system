@@ -31,10 +31,10 @@ public class DoctorAdminDTO {
     private Boolean isVerified;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    
+
     // User information
     private UserBasicDTO user;
-    
+
     @Data
     @Builder
     @NoArgsConstructor

@@ -200,22 +200,22 @@ public class AppointmentService {
 
     public List<AvailableSlotDTO> getAvailableSlots(Long doctorId, Long locationId, LocalDate date) {
         logger.info("Fetching available slots for doctor: {}, location: {}, date: {}", doctorId, locationId, date);
-        
+
         Doctor doctor = doctorRepository.findById(doctorId)
                 .orElseThrow(() -> new RuntimeException("Doctor not found"));
 
         // Get the doctor's schedule for this day
         DoctorSchedule.DayOfWeek dayOfWeek = DoctorSchedule.DayOfWeek.valueOf(date.getDayOfWeek().name());
         logger.debug("Day of week for date {}: {}", date, dayOfWeek);
-        
+
         // Find ACTIVE schedule by doctor, location, and day of week
         DoctorSchedule schedule = doctorScheduleRepository.findActiveScheduleByDoctorLocationAndDay(
                 doctorId, locationId, dayOfWeek)
                 .orElseThrow(() -> new RuntimeException("No active schedule found for doctor at this location on " + dayOfWeek));
-        
-        logger.debug("Schedule found: start={}, end={}, slotDuration={}", 
+
+        logger.debug("Schedule found: start={}, end={}, slotDuration={}",
                 schedule.getStartTime(), schedule.getEndTime(), schedule.getSlotDuration());
-        
+
         // Check effective date range
         if (schedule.getEffectiveFrom() != null && date.isBefore(schedule.getEffectiveFrom())) {
             throw new RuntimeException("This schedule is not yet effective");
@@ -227,17 +227,17 @@ public class AppointmentService {
         // Get booked appointments for this doctor, location, and date (excluding cancelled)
         List<Appointment> bookedAppointments = appointmentRepository
                 .findBookedSlots(doctorId, locationId, date);
-        
-        logger.debug("Found {} booked appointments for doctor {} at location {} on date {}", 
+
+        logger.debug("Found {} booked appointments for doctor {} at location {} on date {}",
                 bookedAppointments.size(), doctorId, locationId, date);
-        bookedAppointments.forEach(app -> 
+        bookedAppointments.forEach(app ->
                 logger.debug("  - Booked slot: time={}, status={}", app.getAppointmentTime(), app.getStatus()));
 
         // Create a set of booked times
         java.util.Set<LocalTime> bookedTimes = bookedAppointments.stream()
                 .map(Appointment::getAppointmentTime)
                 .collect(Collectors.toSet());
-        
+
         logger.debug("Booked times: {}", bookedTimes);
 
         // Generate slots based on doctor's schedule
@@ -257,19 +257,19 @@ public class AppointmentService {
                     .build());
             currentTime = currentTime.plusMinutes(slotDuration);
         }
-        
-        logger.info("Generated {} slots ({} available) for doctor {} at location {} on date {}", 
-                slots.size(), slots.stream().filter(AvailableSlotDTO::isAvailable).count(), 
+
+        logger.info("Generated {} slots ({} available) for doctor {} at location {} on date {}",
+                slots.size(), slots.stream().filter(AvailableSlotDTO::isAvailable).count(),
                 doctorId, locationId, date);
         return slots;
     }
 
     private DoctorSchedule createDefaultSchedule(Doctor doctor, Long locationId, DoctorSchedule.DayOfWeek dayOfWeek) {
         logger.info("Creating default schedule for doctor: {}, location: {}, day: {}", doctor.getId(), locationId, dayOfWeek);
-        
+
         ClinicLocation location = locationRepository.findById(locationId)
                 .orElseThrow(() -> new RuntimeException("Location not found"));
-        
+
         DoctorSchedule schedule = new DoctorSchedule();
         schedule.setDoctor(doctor);
         schedule.setLocation(location);
@@ -278,7 +278,7 @@ public class AppointmentService {
         schedule.setEndTime(LocalTime.of(17, 0)); // 5:00 PM
         schedule.setSlotDuration(30); // 30 minute slots
         schedule.setActive(true);
-        
+
         return doctorScheduleRepository.save(schedule);
     }
 
@@ -492,7 +492,7 @@ public class AppointmentService {
         return convertToDTO(savedAppointment);
     }
 
-    public AppointmentDTO updateAppointment(Long appointmentId, Long doctorUserId, 
+    public AppointmentDTO updateAppointment(Long appointmentId, Long doctorUserId,
             com.digitalclinic.appointmentsystem.dto.AppointmentUpdateRequestDTO requestDTO) {
         logger.info("Updating appointment {} by doctor {}", appointmentId, doctorUserId);
         Appointment appointment = appointmentRepository.findById(appointmentId)

@@ -200,7 +200,7 @@ public class DoctorService {
         logger.info("Fetching clinics for doctor user ID: {}", userId);
         Doctor doctor = doctorRepository.findByUser_Id(userId)
                 .orElseThrow(() -> new RuntimeException("Doctor not found"));
-        
+
         List<DoctorLocation> doctorLocations = doctorLocationRepository.findByDoctorId(doctor.getId());
         return doctorLocations.stream()
                 .map(dl -> convertToClinicLocationDTO(dl.getLocation(), dl.getConsultationFee()))
@@ -240,7 +240,7 @@ public class DoctorService {
         DoctorLocation doctorLocation = DoctorLocation.builder()
                 .doctor(doctor)
                 .location(savedClinic)
-                .consultationFee(dto.getConsultationFeeAtThisLocation() != null ? 
+                .consultationFee(dto.getConsultationFeeAtThisLocation() != null ?
                         dto.getConsultationFeeAtThisLocation() : doctor.getConsultationFee())
                 .isPrimary(false)
                 .build();
@@ -332,7 +332,7 @@ public class DoctorService {
         logger.info("Updating schedule ID: {} for user ID: {}", scheduleId, userId);
         Doctor doctor = doctorRepository.findByUser_Id(userId)
                 .orElseThrow(() -> new RuntimeException("Doctor not found"));
-        
+
         DoctorSchedule schedule = doctorScheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new RuntimeException("Schedule not found"));
 
@@ -371,7 +371,7 @@ public class DoctorService {
     }
 
     public DoctorScheduleDTO updateScheduleByDate(Long userId, Long locationId, String dayOfWeek, LocalTime startTime, LocalTime endTime) {
-        logger.info("Updating schedule for doctor user ID: {}, location: {}, day: {}, times: {} - {}", 
+        logger.info("Updating schedule for doctor user ID: {}, location: {}, day: {}, times: {} - {}",
                 userId, locationId, dayOfWeek, startTime, endTime);
         Doctor doctor = doctorRepository.findByUser_Id(userId)
                 .orElseThrow(() -> new RuntimeException("Doctor not found"));
@@ -392,20 +392,20 @@ public class DoctorService {
         schedule.setActive(true);
 
         DoctorSchedule savedSchedule = doctorScheduleRepository.save(schedule);
-        
+
         return convertToScheduleDTO(savedSchedule);
     }
 
     public void cancelConflictingAppointments(Long doctorId, LocalDate appointmentDate, LocalTime newStartTime, LocalTime newEndTime) {
-        logger.info("Cancelling appointments for doctor: {}, date: {}, outside time range: {} - {}", 
+        logger.info("Cancelling appointments for doctor: {}, date: {}, outside time range: {} - {}",
                 doctorId, appointmentDate, newStartTime, newEndTime);
-        
+
         List<Appointment> appointments = appointmentRepository
                 .findDoctorAppointmentsByDateAndStatus(doctorId, appointmentDate, Appointment.AppointmentStatus.SCHEDULED);
-        
+
         for (Appointment appointment : appointments) {
             LocalTime appointmentTime = appointment.getAppointmentTime();
-            
+
             if (appointmentTime.isBefore(newStartTime) || appointmentTime.isAfter(newEndTime)) {
                 appointment.setStatus(Appointment.AppointmentStatus.CANCELLED);
                 appointmentRepository.save(appointment);
@@ -473,21 +473,21 @@ public class DoctorService {
             dto.setEmail(doctor.getUser().getEmail());
             dto.setPhone(doctor.getUser().getPhone());
         }
-        
+
         // Fetch and populate clinic locations
         List<DoctorLocation> doctorLocations = doctorLocationRepository.findByDoctorId(doctor.getId());
         List<com.digitalclinic.appointmentsystem.dto.ClinicLocationDTO> clinicDTOs = doctorLocations.stream()
                 .map(dl -> convertToClinicLocationDTO(dl.getLocation(), dl.getConsultationFee()))
                 .collect(Collectors.toList());
         dto.setClinicLocations(clinicDTOs);
-        
+
         // Fix profile photo URL - ensure it's a valid URL or use placeholder
         if (dto.getProfilePhoto() == null || dto.getProfilePhoto().isEmpty()) {
-            String initials = doctor.getFullName() != null ? 
+            String initials = doctor.getFullName() != null ?
                     doctor.getFullName().split(" ")[0].substring(0, 1) : "D";
             dto.setProfilePhoto("https://ui-avatars.com/api/?name=" + initials + "&background=4F46E5&color=fff");
         }
-        
+
         return dto;
     }
 

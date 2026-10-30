@@ -22,16 +22,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 /**
  * Bug Condition Exploration Test for Admin Dashboard 404 Errors
- * 
+ *
  * **Validates: Requirements 2.1, 2.2, 2.3**
- * 
+ *
  * **CRITICAL**: This test MUST FAIL on unfixed code - failure confirms the bug exists
  * **EXPECTED OUTCOME**: Test FAILS with 404 errors (this is correct - it proves the bug exists)
- * 
+ *
  * This test encodes the expected behavior:
  * - Property 1: Bug Condition - Missing Endpoints Return 404
  * - When the fix is implemented, this test will pass and validate the fix
- * 
+ *
  * Bug Condition: isBugCondition where:
  * - path='/api/auth/profile' AND method='GET' AND endpointNotMapped
  * - path='/api/admin/analytics/dashboard' AND method='GET' AND endpointNotMapped
@@ -74,10 +74,10 @@ public class AdminDashboard404BugExplorationTest {
 
     /**
      * Test Case 1: Profile Endpoint Bug Condition
-     * 
+     *
      * Bug Condition: GET /api/auth/profile with valid JWT token returns 404
      * Expected Behavior (after fix): Should return 200 with user profile data including fullName
-     * 
+     *
      * **ON UNFIXED CODE**: This test will FAIL with 404 (proves bug exists)
      * **ON FIXED CODE**: This test will PASS with 200 (proves fix works)
      */
@@ -93,10 +93,10 @@ public class AdminDashboard404BugExplorationTest {
 
     /**
      * Test Case 2: Dashboard Endpoint Bug Condition
-     * 
+     *
      * Bug Condition: GET /api/admin/analytics/dashboard with valid admin JWT token returns 404
      * Expected Behavior (after fix): Should return 200 with dashboard metrics
-     * 
+     *
      * **ON UNFIXED CODE**: This test will FAIL with 404 (proves bug exists)
      * **ON FIXED CODE**: This test will PASS with 200 (proves fix works)
      */
@@ -113,10 +113,10 @@ public class AdminDashboard404BugExplorationTest {
 
     /**
      * Test Case 3: Edge Case - Unauthenticated Profile Request
-     * 
+     *
      * Edge Case Validation: Unauthenticated requests should return 401/403, not 404
      * This confirms the bug is specifically about missing endpoints, not auth issues
-     * 
+     *
      * **EXPECTED**: This test should PASS even on unfixed code (returns 401/403)
      */
     @Test
@@ -127,10 +127,10 @@ public class AdminDashboard404BugExplorationTest {
 
     /**
      * Test Case 4: Edge Case - Non-Admin Dashboard Request
-     * 
+     *
      * Edge Case Validation: Non-admin requests should return 403, not 404
      * This confirms the bug is specifically about missing endpoints, not auth issues
-     * 
+     *
      * **ON UNFIXED CODE**: This test will FAIL with 404 (endpoint doesn't exist)
      * **ON FIXED CODE**: This test will PASS with 403 (endpoint exists but access denied)
      */
@@ -143,9 +143,9 @@ public class AdminDashboard404BugExplorationTest {
 
     /**
      * Test Case 5: Edge Case - Unauthenticated Dashboard Request
-     * 
+     *
      * Edge Case Validation: Unauthenticated requests should return 401/403, not 404
-     * 
+     *
      * **EXPECTED**: This test should PASS even on unfixed code (returns 401/403)
      */
     @Test

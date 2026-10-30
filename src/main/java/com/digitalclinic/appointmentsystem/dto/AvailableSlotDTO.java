@@ -17,10 +17,10 @@ public class AvailableSlotDTO {
     private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;
-    
+
     @JsonProperty("isEmergencySlot")
     private boolean isEmergencySlot;
-    
+
     @JsonProperty("isAvailable")
     private boolean isAvailable;
 }
