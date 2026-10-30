@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Records - HealthConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js for Vitals Trend -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/medical_records.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-heartbeat"></i> HealthConnect
+        </div>
+        <div class="nav-links">
+            <a href="patient_dashboard.html">Dashboard</a>
+            <a href="appointment_list.html">Appointments</a>
+            <a href="medical_records.html" class="active">Records</a>
+            <button id="logoutBtn" class="btn btn-outline-danger">Logout</button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <header class="page-header">
+            <div>
+                <h1>My Medical Records</h1>
+                <p class="text-muted">View your complete medical history</p>
+            </div>
+            <button class="btn btn-primary" onclick="openUploadModal()"><i class="fas fa-upload"></i> Upload
+                Document</button>
+        </header>
+
+        <div class="records-container">
+            <!-- Tabs Navigation -->
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('prescriptions', this)">
+                    <i class="fas fa-file-prescription text-primary"></i> Prescriptions
+                </button>
+                <button class="tab-btn" onclick="switchTab('vitals', this)">
+                    <i class="fas fa-heartbeat text-danger"></i> Vitals
+                </button>
+                <button class="tab-btn" onclick="switchTab('lab', this)">
+                    <i class="fas fa-flask text-secondary"></i> Lab Reports
+                </button>
+                <button class="tab-btn" onclick="switchTab('documents', this)">
+                    <i class="fas fa-folder-open text-warning"></i> Documents
+                </button>
+            </div>
+
+            <!-- Loader -->
+            <div id="loader" class="loader">
+                <div class="spinner"></div>
+                <p>Loading records...</p>
+            </div>
+
+            <!-- Tab Content: Prescriptions -->
+            <div id="tab-prescriptions" class="tab-content active">
+                <div class="content-header">
+                    <h2>Past Prescriptions</h2>
+                </div>
+                <div id="prescriptionsList" class="grid-list">
+                    <!-- Injected by JS -->
+                </div>
+                <div id="empty-prescriptions" class="empty-state hidden">
+                    <i class="fas fa-file-prescription"></i>
+                    <p>No prescriptions found.</p>
+                </div>
+            </div>
+
+            <!-- Tab Content: Vitals -->
+            <div id="tab-vitals" class="tab-content">
+                <div class="content-header">
+                    <h2>Vitals Trends</h2>
+                </div>
+                <div class="chart-container card">
+                    <canvas id="vitalsChart"></canvas>
+                </div>
+
+                <h3 class="mt-4">Recent Readings</h3>
+                <div class="table-responsive card mt-3">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>BP (mmHg)</th>
+                                <th>Heart Rate (bpm)</th>
+                                <th>Temp (°C)</th>
+                                <th>Weight (kg)</th>
+                                <th>SpO2 (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="vitalsTableBody">
+                            <!-- Injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="empty-vitals" class="empty-state hidden">
+                    <i class="fas fa-heartbeat"></i>
+                    <p>No vitals recorded.</p>
+                </div>
+            </div>
+
+            <!-- Tab Content: Lab Reports -->
+            <div id="tab-lab" class="tab-content">
+                <div class="content-header">
+                    <h2>Laboratory Reports</h2>
+                </div>
+                <div id="labList" class="grid-list">
+                    <!-- Injected by JS -->
+                </div>
+                <div id="empty-lab" class="empty-state hidden">
+                    <i class="fas fa-flask"></i>
+                    <p>No lab reports found.</p>
+                </div>
+            </div>
+
+            <!-- Tab Content: Documents -->
+            <div id="tab-documents" class="tab-content">
+                <div class="content-header">
+                    <h2>General Documents</h2>
+                </div>
+                <div id="docsList" class="grid-list">
+                    <!-- Injected by JS -->
+                </div>
+                <div id="empty-docs" class="empty-state hidden">
+                    <i class="fas fa-folder-open"></i>
+                    <p>No documents found.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Upload Modal -->
+    <div id="uploadModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Upload Medical Document</h2>
+                <span class="close" onclick="closeUploadModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="uploadForm">
+                    <div class="form-group">
+                        <label>Document Name</label>
+                        <input type="text" id="docName" class="form-control" required
+                            placeholder="e.g., Blood Test Report">
+                    </div>
+                    <div class="form-group mt-3">
+                        <label>Document Type</label>
+                        <select id="docType" class="form-control" required>
+                            <option value="LAB_REPORT">Lab Report</option>
+                            <option value="SCAN">Scan / Imaging</option>
+                            <option value="GENERAL">General Document</option>
+                            <option value="OTHER">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label>Description (Optional)</label>
+                        <textarea id="docDesc" class="form-control" rows="2"></textarea>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label>File (PDF, JPG, PNG)</label>
+                        <input type="file" id="docFile" class="form-control" accept=".pdf,.jpg,.jpeg,.png" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeUploadModal()">Cancel</button>
+                <button class="btn btn-primary" id="submitUploadBtn" onclick="uploadDocument()">Upload</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/medical_records.js"></script>
+<script src="/js/notification_handler.js"></script>
+</body>
+
+</html>

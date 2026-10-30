@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - HealthConnect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/profile.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <i class="fas fa-heartbeat"></i> HealthConnect
+        </a>
+        <a href="patient_dashboard.html"
+            style="color: var(--dark); text-decoration: none; font-weight: 600;">Dashboard</a>
+    </nav>
+
+    <div class="profile-container">
+        <!-- Navigation Menu -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="#" class="tab-link active" onclick="openTab(event, 'personal')">
+                        <i class="fas fa-user"></i> Personal Info
+                    </a></li>
+                <li><a href="#" class="tab-link" onclick="openTab(event, 'medical')">
+                        <i class="fas fa-notes-medical"></i> Medical History
+                    </a></li>
+                <li><a href="#" class="tab-link" onclick="openTab(event, 'security')">
+                        <i class="fas fa-shield-alt"></i> Security
+                    </a></li>
+            </ul>
+        </aside>
+
+        <main class="content-card">
+            <!-- Personal Info Tab -->
+            <div id="personal" class="tab-content active">
+                <div class="section-header">
+                    <h2>Personal Information</h2>
+                </div>
+
+                <div class="photo-upload">
+                    <img src="" id="userProfilePic" class="profile-pic" alt="Profile">
+                    <div>
+                        <button class="btn-upload"><i class="fas fa-camera"></i> Change Photo</button>
+                        <p style="color: #6B7280; font-size: 0.85rem; margin-top: 0.5rem;">JPG, GIF or PNG. Max size of
+                            800K</p>
+                    </div>
+                </div>
+
+                <form id="profileForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" id="fullName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email Address (Read-Only)</label>
+                            <input type="email" id="email" class="form-control" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" id="phone" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Date of Birth</label>
+                            <input type="date" id="dob" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Gender</label>
+                            <select id="gender" class="form-control">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Blood Group</label>
+                            <select id="bloodGroup" class="form-control">
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                        </div>
+                        <div class="form-group full-width">
+                            <label class="form-label">Address</label>
+                            <textarea id="address" class="form-control" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">City</label>
+                            <input type="text" id="city" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">State</label>
+                            <input type="text" id="state" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Pincode</label>
+                            <input type="text" id="pincode" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button type="button" class="btn btn-secondary" onclick="loadProfileInfo()">Discard</button>
+                        <button type="submit" class="btn btn-primary" id="saveProfileBtn">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Medical History Tab -->
+            <div id="medical" class="tab-content">
+                <div class="section-header">
+                    <h2>Medical History</h2>
+                </div>
+                <form id="medicalForm">
+                    <div class="form-group full-width">
+                        <label class="form-label">Known Allergies</label>
+                        <textarea id="allergies" class="form-control" rows="3"
+                            placeholder="E.g., Peanuts, Penicillin..."></textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <label class="form-label">Chronic Conditions</label>
+                        <textarea id="chronicConditions" class="form-control" rows="3"
+                            placeholder="E.g., Asthma, Diabetes..."></textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <label class="form-label">Past Medical History / Surgeries</label>
+                        <textarea id="medicalHistory" class="form-control" rows="4"></textarea>
+                    </div>
+                    <div class="action-buttons">
+                        <button type="submit" class="btn btn-primary">Update Medical Records</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Security Tab -->
+            <div id="security" class="tab-content">
+                <div class="section-header">
+                    <h2>Security Settings</h2>
+                </div>
+                <div style="max-width: 500px">
+                    <div class="form-group">
+                        <label class="form-label">Current Password</label>
+                        <input type="password" class="form-control" placeholder="Enter current password">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">New Password</label>
+                        <input type="password" class="form-control" placeholder="Enter new password">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Confirm New Password</label>
+                        <input type="password" class="form-control" placeholder="Confirm new password">
+                    </div>
+                    <div class="action-buttons" style="justify-content: flex-start;">
+                        <button class="btn btn-primary">Change Password</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="toastMessage">Changes saved successfully!</div>
+
+    <script src="js/profile.js"></script>
+<script src="/js/notification_handler.js"></script>
+</body>
+
+</html>

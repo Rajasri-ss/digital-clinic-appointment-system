@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthConnect - Digital Clinic Appointment System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <!-- Emergency Banner -->
+    <div class="emergency-banner">
+        <div class="emergency-banner-content">
+            <i class="fas fa-ambulance"></i>
+            <div>
+                <strong>Medical Emergency?</strong> Call: <strong>108</strong> or use our Emergency Booking System
+            </div>
+        </div>
+        <a href="/emergency" class="btn btn-danger">Emergency Booking</a>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-heartbeat"></i>
+            <span>HealthConnect</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home" class="active">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#specialties">Specialties</a></li>
+            <li><a href="#testimonials">Reviews</a></li>
+        </ul>
+        <div class="cta-buttons">
+            <a href="/login" class="btn btn-secondary"><i class="fas fa-sign-in-alt"></i> Login</a>
+            <a href="/register" class="btn btn-primary"><i class="fas fa-user-plus"></i> Sign Up</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-star"></i> Trusted by 50,000+ Patients
+            </div>
+            <h1>Book Appointments with <span class="highlight">Trusted Doctors</span> Instantly</h1>
+            <p>Find the right doctor, book appointments online, and get instant confirmations via SMS, Email & WhatsApp.
+                No more waiting in queues!</p>
+            <div class="hero-buttons">
+                <a href="/login" class="btn btn-primary btn-large">
+                    <i class="fas fa-calendar-check"></i> Book Appointment Now
+                </a>
+                <a href="/emergency" class="btn btn-danger btn-large">
+                    <i class="fas fa-ambulance"></i> Emergency Booking
+                </a>
+            </div>
+            <div class="hero-features">
+                <div class="hero-feature-item">
+                    <i class="fas fa-clock"></i>
+                    <span>24/7 Booking</span>
+                </div>
+                <div class="hero-feature-item">
+                    <i class="fas fa-bell"></i>
+                    <span>Smart Reminders</span>
+                </div>
+                <div class="hero-feature-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>100% Secure</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="hero-card">
+                <h3><i class="fas fa-search"></i> Quick Search</h3>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search by doctor, specialty, or location...">
+                </div>
+                <div class="quick-actions">
+                    <div class="quick-action">
+                        <div class="quick-action-icon"><i class="fas fa-heartbeat" style="color: #EF4444;"></i></div>
+                        <span>Cardiology</span>
+                    </div>
+                    <div class="quick-action">
+                        <div class="quick-action-icon"><i class="fas fa-baby" style="color: #F59E0B;"></i></div>
+                        <span>Pediatrics</span>
+                    </div>
+                    <div class="quick-action">
+                        <div class="quick-action-icon"><i class="fas fa-tooth" style="color: #10B981;"></i></div>
+                        <span>Dental</span>
+                    </div>
+                    <div class="quick-action">
+                        <div class="quick-action-icon"><i class="fas fa-eye" style="color: #3B82F6;"></i></div>
+                        <span>Eye Care</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <h2 class="section-title">Why Choose HealthConnect?</h2>
+        <p class="section-subtitle">Experience the future of healthcare with our cutting-edge features</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
+                <h3>Multi-Channel Booking</h3>
+                <p>Book via Mobile App, WhatsApp Chatbot, or Web. Choose what's convenient for you.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+                <h3>Instant Confirmation</h3>
+                <p>Get immediate confirmations via SMS, Email, WhatsApp, and push notifications.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-ambulance"></i></div>
+                <h3>Emergency Triage</h3>
+                <p>Smart triage system prioritizes urgent cases and finds slots within minutes.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-bell"></i></div>
+                <h3>Automated Reminders</h3>
+                <p>Never miss appointments with 24-hour advance reminders across all channels.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-credit-card"></i></div>
+                <h3>Flexible Payment</h3>
+                <p>Pay online via Card, UPI, Net Banking, or choose to pay at the clinic.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-sync-alt"></i></div>
+                <h3>Easy Rescheduling</h3>
+                <p>Cancel or reschedule appointments hassle-free with instant slot availability.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-subtitle">Simple steps to book your appointment</p>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3><i class="fas fa-user-plus"></i> Step 1: Register</h3>
+                    <p>Create your free account in seconds with basic details</p>
+                </div>
+                <div class="timeline-number">1</div>
+                <div></div>
+            </div>
+            <div class="timeline-item">
+                <div></div>
+                <div class="timeline-number">2</div>
+                <div class="timeline-content">
+                    <h3><i class="fas fa-search"></i> Step 2: Find Doctor</h3>
+                    <p>Search by specialty, location, or doctor name</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3><i class="fas fa-calendar-check"></i> Step 3: Book Slot</h3>
+                    <p>Choose date and time from real-time available slots</p>
+                </div>
+                <div class="timeline-number">3</div>
+                <div></div>
+            </div>
+            <div class="timeline-item">
+                <div></div>
+                <div class="timeline-number">4</div>
+                <div class="timeline-content">
+                    <h3><i class="fas fa-hospital"></i> Step 4: Visit Clinic</h3>
+                    <p>Get confirmation and visit at your scheduled time</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <h2 class="section-title" style="color: white; margin-bottom: 3rem;">Our Impact in Numbers</h2>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <i class="fas fa-users"></i>
+                <h2>50K+</h2>
+                <p>Happy Patients</p>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-user-md"></i>
+                <h2>500+</h2>
+                <p>Verified Doctors</p>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-hospital"></i>
+                <h2>100+</h2>
+                <p>Clinics & Hospitals</p>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-clock"></i>
+                <h2>24/7</h2>
+                <p>Support Available</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials" id="testimonials">
+        <h2 class="section-title">What Our Patients Say</h2>
+        <p class="section-subtitle">Real stories from real people</p>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p>"Booking appointments has never been easier! I got instant confirmation via WhatsApp and SMS. Highly
+                    recommend!"</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">RK</div>
+                    <div>
+                        <strong>Rajesh Kumar</strong>
+                        <div style="font-size: 0.9rem; opacity: 0.7;">Patient</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p>"The emergency triage system saved my life. I got priority booking within minutes during a cardiac
+                    emergency."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">PS</div>
+                    <div>
+                        <strong>Priya Sharma</strong>
+                        <div style="font-size: 0.9rem; opacity: 0.7;">Patient</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p>"As a doctor, this platform has streamlined my schedule management. No more double bookings!"</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">DS</div>
+                    <div>
+                        <strong>Dr. Sarah</strong>
+                        <div style="font-size: 0.9rem; opacity: 0.7;">Cardiologist</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-brand">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>HealthConnect</span>
+                </div>
+                <p>Your trusted partner in healthcare. Book appointments with verified doctors instantly.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-angle-right"></i> Find Doctors</a></li>
+                    <li><a href="#"><i class="fas fa-angle-right"></i> Book Appointment</a></li>
+                    <li><a href="#"><i class="fas fa-angle-right"></i> Emergency Care</a></li>
+                    <li><a href="#"><i class="fas fa-angle-right"></i> About Us</a></li>
+                    <li><a href="#"><i class="fas fa-angle-right"></i> Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>For Doctors</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-angle-right"></i> Register as Doctor</a></li>
+                    <li><a href="#"><i class="fas fa-angle-right"></i> Doctor Dashboard</a></li>
+                    <li><a href="#"><i class="fas fa-angle-right"></i> Manage Schedule</a></li>
+                    <li><a href="#"><i class="fas fa-angle-right"></i> Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <ul>
+                    <li><a href="mailto:support@healthconnect.com"><i class="fas fa-envelope"></i>
+                            support@healthconnect.com</a></li>
+                    <li><a href="tel:+918632234567"><i class="fas fa-phone"></i> +91 863-2234567</a></li>
+                    <li><a href="#"><i class="fab fa-whatsapp"></i> WhatsApp: +91 9876543210</a></li>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> Guntur, Andhra Pradesh</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 HealthConnect. All rights reserved. | <a href="#" style="color: inherit;">Privacy Policy</a>
+                | <a href="#" style="color: inherit;">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script src="js/index.js"></script>
+<script src="/js/notification_handler.js"></script>
+</body>
+
+</html>

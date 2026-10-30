@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - User Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/admin_dashboard.css">
+    <link rel="stylesheet" href="/css/admin_users.css">
+    <style>
+        /* Tab Content Sections */
+        .tab-content-section {
+            display: none;
+        }
+
+        .tab-content-section.active {
+            display: block;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            z-index: 9999;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .toast.success {
+            background: #10B981;
+        }
+
+        .toast.error {
+            background: #EF4444;
+        }
+
+        .toast.info {
+            background: #3B82F6;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        /* Action Buttons - Redesigned */
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 0.5rem 0.75rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+            min-width: 32px;
+            height: 32px;
+        }
+
+        .action-btn.approve {
+            background: #D1FAE5;
+            color: #059669;
+        }
+
+        .action-btn.approve:hover {
+            background: #059669;
+            color: white;
+        }
+
+        .action-btn.reject {
+            background: #FEE2E2;
+            color: #DC2626;
+        }
+
+        .action-btn.reject:hover {
+            background: #DC2626;
+            color: white;
+        }
+
+        .action-btn.toggle {
+            background: #DBEAFE;
+            color: #2563EB;
+        }
+
+        .action-btn.toggle:hover {
+            background: #2563EB;
+            color: white;
+        }
+
+        .action-btn.view {
+            background: #F3F4F6;
+            color: #4B5563;
+        }
+
+        .action-btn.view:hover {
+            background: #E5E7EB;
+            color: #1F2937;
+        }
+
+        .action-btn i {
+            font-size: 1rem;
+        }
+
+        /* Responsive Table */
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .admin-table {
+            min-width: 600px;
+        }
+
+        .admin-table th,
+        .admin-table td {
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="admin-sidebar" id="sidebar">
+        <div class="sidebar-brand"><i class="fa-solid fa-heart-pulse"></i><span>HealthConnect</span></div>
+        <ul class="sidebar-nav">
+            <li class="nav-item"><a href="/admin_dashboard.html"><i class="fa-solid fa-chart-pie"></i><span>Dashboard
+                        Overview</span></a></li>
+            <li class="nav-item active"><a href="/admin_users.html"><i class="fa-solid fa-users-gear"></i><span>User
+                        Management</span></a></li>
+            <li class="nav-item"><a href="/admin_reports.html"><i
+                        class="fa-solid fa-file-invoice-dollar"></i><span>Analytics & Reports</span></a></li>
+            <li class="nav-item"><a href="/admin_settings.html"><i class="fa-solid fa-sliders"></i><span>System
+                        Settings</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="admin-main">
+        <header class="admin-header">
+            <h2>User Management Hub</h2>
+        </header>
+
+        <div class="content-wrapper">
+            <!-- Tabs -->
+            <div class="user-tabs">
+                <button class="tab-btn active" data-target="patientsTab">Patients</button>
+                <button class="tab-btn" data-target="doctorsTab">Doctors</button>
+                <button class="tab-btn" data-target="adminsTab">Admins</button>
+            </div>
+
+            <!-- Patients Table -->
+            <div id="patientsTab" class="tab-content-section active">
+                <div class="table-card">
+                    <div class="table-actions">
+                        <div class="search-box">
+                            <i class="fa-solid fa-search"></i>
+                            <input type="text" class="search-input" placeholder="Search patients...">
+                        </div>
+                        <button class="btn-primary" id="exportPatientsBtn"><i class="fa-solid fa-download"></i> Export
+                            CSV</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>Full Name</th>
+                                    <th>Email</th>
+                                    <th>Contact</th>
+                                    <th>Status</th>
+                                    <th>Registered</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="patientsTableBody">
+                                <tr>
+                                    <td colspan="7" class="text-center">Loading patients...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination">
+                        <button id="prevPatientsPage" class="page-btn" disabled><i
+                                class="fa-solid fa-chevron-left"></i></button>
+                        <span id="patientsPageIndicator">Page 1 of 1</span>
+                        <button id="nextPatientsPage" class="page-btn"><i
+                                class="fa-solid fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Doctors Table -->
+            <div id="doctorsTab" class="tab-content-section">
+                <div class="table-card">
+                    <div class="table-actions">
+                        <div class="search-box">
+                            <i class="fa-solid fa-search"></i>
+                            <input type="text" class="search-input" placeholder="Search doctors...">
+                        </div>
+                        <button class="btn-primary" id="exportDoctorsBtn"><i class="fa-solid fa-download"></i> Export
+                            CSV</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Doctor ID</th>
+                                    <th>Full Name</th>
+                                    <th>Specialization</th>
+                                    <th>Email</th>
+                                    <th>Contact</th>
+                                    <th>Status</th>
+                                    <th>Registered</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="doctorsTableBody">
+                                <tr>
+                                    <td colspan="8" class="text-center">Loading doctors...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination">
+                        <button id="prevDoctorsPage" class="page-btn" disabled><i
+                                class="fa-solid fa-chevron-left"></i></button>
+                        <span id="doctorsPageIndicator">Page 1 of 1</span>
+                        <button id="nextDoctorsPage" class="page-btn"><i class="fa-solid fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admins Table -->
+            <div id="adminsTab" class="tab-content-section">
+                <div class="table-card">
+                    <div class="table-actions">
+                        <div class="search-box">
+                            <i class="fa-solid fa-search"></i>
+                            <input type="text" class="search-input" placeholder="Search admins...">
+                        </div>
+                        <button class="btn-primary" id="exportAdminsBtn"><i class="fa-solid fa-download"></i> Export
+                            CSV</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>Full Name</th>
+                                    <th>Email</th>
+                                    <th>Contact</th>
+                                    <th>Status</th>
+                                    <th>Registered</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminsTableBody">
+                                <tr>
+                                    <td colspan="7" class="text-center">Loading admins...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination">
+                        <button id="prevAdminsPage" class="page-btn" disabled><i
+                                class="fa-solid fa-chevron-left"></i></button>
+                        <span id="adminsPageIndicator">Page 1 of 1</span>
+                        <button id="nextAdminsPage" class="page-btn"><i class="fa-solid fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- User Details Modal -->
+    <div id="userDetailsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">User Details</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Dynamic content will be injected here -->
+            </div>
+            <div class="modal-footer" id="modalFooter">
+                <!-- Action buttons will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Confirmation Modal -->
+    <div id="actionModal" class="modal">
+        <div class="modal-content">
+            <h3 id="actionModalTitle">Confirm Action</h3>
+            <p id="actionModalMessage">Are you sure you want to proceed?</p>
+            <input type="hidden" id="actionUserId">
+            <input type="hidden" id="actionType">
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="closeActionModal()">Cancel</button>
+                <button class="btn-danger" id="confirmActionBtn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="/js/notification_handler.js"></script>
+    <script src="/js/admin_users.js"></script>
+</body>
+
+</html>

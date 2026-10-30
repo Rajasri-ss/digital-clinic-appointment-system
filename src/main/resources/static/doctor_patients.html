@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Directory - HealthConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/doctor_patients.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-user-md"></i> DoctorPortal
+        </div>
+        <div class="nav-links">
+            <a href="doctor_dashboard.html">Dashboard</a>
+            <a href="doctor_schedule.html">My Schedule</a>
+            <a href="doctor_patients.html" class="active">My Patients</a>
+            <button id="logoutBtn" class="btn btn-outline-danger">Logout</button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <header class="page-header">
+            <div>
+                <h1>Patient Directory</h1>
+                <p class="text-muted">Manage your patients and their history</p>
+            </div>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search by name, ID, or phone..."
+                    onkeyup="filterPatients()">
+            </div>
+        </header>
+
+        <div id="loader" class="loader">
+            <div class="spinner"></div>
+            <p>Loading patients...</p>
+        </div>
+
+        <div class="patients-grid" id="patientsList">
+            <!-- Patient cards injected here -->
+        </div>
+
+        <div id="empty-state" class="empty-state hidden">
+            <i class="fas fa-users-slash"></i>
+            <h2>No patients found</h2>
+            <p>You have no assigned patients or no one matches your search.</p>
+        </div>
+    </main>
+
+    <script src="js/doctor_patients.js"></script>
+<script src="/js/notification_handler.js"></script>
+</body>
+
+</html>

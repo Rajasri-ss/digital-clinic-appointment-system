@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - HealthConnect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/register.css">
+</head>
+
+<body>
+
+    <div class="auth-container">
+        <!-- Sidebar -->
+        <div class="auth-sidebar">
+            <a href="index.html" class="logo">
+                <i class="fas fa-heartbeat"></i> HealthConnect
+            </a>
+            <h2>Join Our Digital Clinic</h2>
+            <p>Experience seamless healthcare management. Book appointments, manage records, and consult top doctors — all in one place.</p>
+            <div style="margin-top: 2rem;">
+                <p><i class="fas fa-check-circle" style="color: #FCD34D;"></i> 500+ Verified Doctors</p>
+                <p><i class="fas fa-check-circle" style="color: #FCD34D;"></i> Secure Medical Records</p>
+                <p><i class="fas fa-check-circle" style="color: #FCD34D;"></i> 24/7 Emergency Support</p>
+                <p><i class="fas fa-check-circle" style="color: #FCD34D;"></i> Book Appointments Instantly</p>
+            </div>
+        </div>
+
+        <!-- Form wrapping -->
+        <div class="auth-form-wrap">
+            <h3>Create an Account</h3>
+            <p>Choose how you'd like to join HealthConnect</p>
+
+            <div class="role-selection-cards">
+                <!-- Patient Card -->
+                <a href="register_patient.html" class="role-choice-card patient-card">
+                    <div class="role-icon">
+                        <i class="fas fa-user-injured"></i>
+                    </div>
+                    <div class="role-info">
+                        <h4>I am a Patient</h4>
+                        <p>Book appointments, manage medical records, consult doctors online</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> Book appointments instantly</li>
+                            <li><i class="fas fa-check"></i> Access medical records</li>
+                            <li><i class="fas fa-check"></i> 24/7 emergency support</li>
+                        </ul>
+                    </div>
+                    <div class="role-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+
+                <!-- Doctor Card -->
+                <a href="register_doctor.html" class="role-choice-card doctor-card">
+                    <div class="role-icon">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <div class="role-info">
+                        <h4>I am a Doctor</h4>
+                        <p>Manage your schedule, consult patients, grow your practice online</p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> Manage appointments</li>
+                            <li><i class="fas fa-check"></i> Verified doctor profile</li>
+                            <li><i class="fas fa-check"></i> Grow your practice</li>
+                        </ul>
+                    </div>
+                    <div class="role-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+            </div>
+
+            <div class="auth-footer" style="margin-top: 2rem; text-align: center;">
+                Already have an account? <a href="login.html">Sign In</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/register.js"></script>
+</body>
+
+</html>

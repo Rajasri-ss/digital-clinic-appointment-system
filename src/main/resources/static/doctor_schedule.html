@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Schedule - HealthConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- FullCalendar CSS and JS -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+    <link rel="stylesheet" href="css/doctor_schedule.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-calendar-alt"></i> ScheduleManager
+        </div>
+        <div class="nav-links">
+            <a href="doctor_dashboard.html">Dashboard</a>
+            <a href="doctor_schedule.html" class="active">My Schedule</a>
+            <button id="logoutBtn" class="btn btn-outline-danger">Logout</button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <header class="page-header">
+            <div>
+                <h1>Manage Schedule</h1>
+                <p class="text-muted">View and manage your appointments</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="refreshSchedule()"><i class="fas fa-sync-alt"></i>
+                    Refresh</button>
+            </div>
+        </header>
+
+        <div class="layout-grid">
+            <!-- Sidebar: Filters & Management -->
+            <aside class="sidebar">
+                <div class="card filter-card">
+                    <h3><i class="fas fa-filter"></i> Filters</h3>
+
+                    <div class="filter-section">
+                        <h4>Status</h4>
+                        <div class="checkbox-group">
+                            <label class="custom-checkbox">
+                                <input type="checkbox" value="ALL" checked id="filter-all">
+                                <span class="checkmark"></span> All
+                            </label>
+                            <label class="custom-checkbox">
+                                <input type="checkbox" value="PENDING" class="status-filter">
+                                <span class="checkmark"></span> <span class="dot dot-warning"></span> Pending
+                            </label>
+                            <label class="custom-checkbox">
+                                <input type="checkbox" value="CONFIRMED" class="status-filter">
+                                <span class="checkmark"></span> <span class="dot dot-success"></span> Confirmed
+                            </label>
+                            <label class="custom-checkbox">
+                                <input type="checkbox" value="COMPLETED" class="status-filter">
+                                <span class="checkmark"></span> <span class="dot dot-primary"></span> Completed
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-section mt-4">
+                        <h4>Priority</h4>
+                        <div class="checkbox-group">
+                            <label class="custom-checkbox text-danger">
+                                <input type="checkbox" id="filter-emergency">
+                                <span class="checkmark"></span> <i class="fas fa-ambulance"></i> Emergencies Only
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mt-4" id="appointment-details-card" style="display: none;">
+                    <h3>Appointment Details</h3>
+                    <div id="details-content">
+                        <!-- Injected dynamically -->
+                    </div>
+                    <div class="details-actions mt-3" id="details-actions">
+                        <!-- Actions injected dynamically -->
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Calendar View -->
+            <div class="main-content">
+                <div class="card calendar-card">
+                    <div id="calendar-loader" class="loader">
+                        <div class="spinner"></div>
+                        <p>Loading Calendar...</p>
+                    </div>
+                    <div id="calendar"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal for Quick Action -->
+    <div id="actionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="actionModalTitle">Update Appointment</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p id="actionModalText">Are you sure you want to proceed?</p>
+                <input type="hidden" id="actionApptId">
+                <input type="hidden" id="actionType">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary close-btn">Cancel</button>
+                <button class="btn btn-primary" id="confirmActionBtn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Schedule Editing -->
+    <div id="scheduleEditModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="scheduleEditModalTitle">Edit Daily Schedule</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p id="scheduleEditDateDisplay" class="text-muted mb-3"></p>
+                <div class="form-group">
+                    <label for="editStartTime">Start Time</label>
+                    <input type="time" id="editStartTime" class="form-control" required>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="editEndTime">End Time</label>
+                    <input type="time" id="editEndTime" class="form-control" required>
+                </div>
+                <input type="hidden" id="editLocationId">
+                <input type="hidden" id="editDayOfWeek">
+                <input type="hidden" id="editAppointmentDate">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary close-btn">Cancel</button>
+                <button class="btn btn-primary" id="saveScheduleBtn">Save Schedule</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/doctor_schedule.js"></script>
+<script src="/js/notification_handler.js"></script>
+</body>
+
+</html>

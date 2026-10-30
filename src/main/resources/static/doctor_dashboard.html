@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard - HealthConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/doctor_dashboard.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-user-md"></i> DoctorPortal
+        </div>
+        <div class="nav-links">
+            <a href="doctor_dashboard.html" class="active">Dashboard</a>
+            <a href="doctor_schedule.html">My Schedule</a>
+            <button id="logoutBtn" class="btn btn-outline-danger">Logout</button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Header Section -->
+        <header class="dashboard-header text-white">
+            <div class="welcome-text">
+                <h1 id="welcomeText">Welcome, Dr. Loading...</h1>
+                <p>Here is your overview for today, <span id="currentDate"></span></p>
+            </div>
+        </header>
+
+        <!-- Emergency Alerts (Prominent) -->
+        <div id="emergencyAlerts" class="alert-box hidden">
+            <!-- Injected by JS -->
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon bg-primary-light text-primary">
+                    <i class="fas fa-calendar-day"></i>
+                </div>
+                <div class="stat-info">
+                    <p>Total Today</p>
+                    <h3 id="statToday">0</h3>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon bg-secondary-light text-secondary">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-info">
+                    <p>Completed</p>
+                    <h3 id="statCompleted">0</h3>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon bg-warning-light text-warning">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-info">
+                    <p>Pending</p>
+                    <h3 id="statPending">0</h3>
+                </div>
+            </div>
+            <div class="stat-card border-danger">
+                <div class="stat-icon bg-danger-light text-danger">
+                    <i class="fas fa-ambulance"></i>
+                </div>
+                <div class="stat-info">
+                    <p>Emergency cases</p>
+                    <h3 id="statEmergency">0</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-layout">
+            <!-- Timeline (Today's queue) -->
+            <div class="card timeline-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-list-ul"></i> Today's Queue</h2>
+                    <a href="doctor_schedule.html" class="view-all-link">Manage Schedule &rarr;</a>
+                </div>
+                <div id="loader" class="loader">
+                    <div class="spinner"></div>
+                </div>
+                <div class="queue-timeline" id="queueList">
+                    <!-- Timeline items injected here -->
+                </div>
+                <div id="noAppointments" class="empty-state hidden">
+                    <i class="fas fa-mug-hot"></i>
+                    <p>No appointments left for today!</p>
+                </div>
+            </div>
+
+            <!-- Quick Actions / Upcoming Info -->
+            <div class="side-panel">
+                <div class="card actions-card">
+                    <h2>Quick Actions</h2>
+                    <div class="action-grid">
+                        <button class="action-btn" onclick="window.location.href='doctor_schedule.html'">
+                            <i class="fas fa-calendar-plus text-primary"></i>
+                            <span>Schedule</span>
+                        </button>
+                        <button class="action-btn" onclick="toggleClinicManagement()">
+                            <i class="fas fa-hospital text-secondary"></i>
+                            <span>Clinics</span>
+                        </button>
+                        <button class="action-btn" onclick="refreshData()">
+                            <i class="fas fa-sync-alt text-secondary"></i>
+                            <span>Refresh</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Clinic Management Section -->
+                <div class="card" id="clinicManagementCard" style="display: none; margin-top: 1rem;">
+                    <h2><i class="fas fa-hospital"></i> My Clinics</h2>
+                    <div id="clinicsList" style="margin-top: 1rem;">
+                        <!-- Clinics will be loaded here -->
+                    </div>
+                    <button class="btn btn-primary" onclick="showAddClinicForm()" style="width: 100%; margin-top: 1rem;">
+                        <i class="fas fa-plus"></i> Add Clinic
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add/Edit Clinic Modal -->
+        <div id="clinicModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+            <div style="background: white; padding: 2rem; border-radius: 12px; max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto;">
+                <h3 id="clinicModalTitle">Add Clinic</h3>
+                <form id="clinicForm" style="margin-top: 1rem;">
+                    <input type="hidden" id="clinicId">
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Clinic Name</label>
+                        <input type="text" id="clinicName" required style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 6px;">
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Address</label>
+                        <textarea id="clinicAddress" required style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 6px;" rows="2"></textarea>
+                    </div>
+                    <div style="margin-bottom: 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">City</label>
+                            <input type="text" id="clinicCity" required style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 6px;">
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">State</label>
+                            <input type="text" id="clinicState" required style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 6px;">
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Pincode</label>
+                            <input type="text" id="clinicPincode" required style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 6px;">
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Phone</label>
+                            <input type="text" id="clinicPhone" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 6px;">
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Consultation Fee (₹)</label>
+                        <input type="number" id="clinicFee" step="0.01" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 6px;">
+                    </div>
+                    <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                        <button type="submit" class="btn btn-primary" style="flex: 1;">Save</button>
+                        <button type="button" onclick="closeClinicModal()" class="btn btn-secondary" style="flex: 1;">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/doctor_dashboard.js"></script>
+<script src="/js/notification_handler.js"></script>
+</body>
+
+</html>

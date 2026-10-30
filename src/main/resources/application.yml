@@ -1,0 +1,69 @@
+spring:
+  application:
+    name: healthconnect
+
+  # Optional config imports: allows loading local environment or properties file if present
+  config:
+    import:
+      - optional:file:.env[.properties]
+      - optional:file:application-local.properties
+
+  # Database Configuration
+  datasource:
+    url: ${DB_URL:${SPRING_DATASOURCE_URL:jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:healthconnect}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}}
+    username: ${DB_USERNAME:${DB_USER:${SPRING_DATASOURCE_USERNAME:root}}}
+    password: ${DB_PASSWORD:${SPRING_DATASOURCE_PASSWORD:}}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # JPA / Hibernate Config
+  jpa:
+    hibernate:
+      ddl-auto: update # Automatically creates/updates tables
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+  
+  # SQL initialization
+  sql:
+    init:
+      mode: ${SQL_INIT_MODE:never}
+      continue-on-error: true
+
+  # Servlet & File Upload Configuration (Required for Medical Records)
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 15MB
+      max-request-size: 15MB
+      file-size-threshold: 2KB
+
+# JSON Web Token (JWT) Configuration
+# Required: JWT_SECRET must be supplied via environment variable, .env, or application-local.properties.
+# Must be at least 256 bits (32+ characters) long for HS256 algorithm.
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: ${JWT_EXPIRATION:86400000} # 24 hours in milliseconds
+
+# Application Specific Configurations
+app:
+  cors:
+    allowed-origins: ${ALLOWED_ORIGINS:http://localhost:8080,http://localhost:3000}
+    
+  upload:
+    dir: ${UPLOAD_DIR:uploads/records}
+    dir-prescriptions: ${UPLOAD_PRESCRIPTIONS_DIR:uploads/prescriptions}
+
+# Logging levels
+logging:
+  level:
+    root: INFO
+    com.digitalclinic: DEBUG
+    org.springframework.web: INFO
+    org.hibernate.SQL: WARN
+    org.springframework.security: DEBUG
+
+# WebSocket Configuration
+websocket:
+  allowed-origins: ${WEBSOCKET_ALLOWED_ORIGINS:http://localhost:8080,http://localhost:3000}

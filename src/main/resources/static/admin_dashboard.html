@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - HealthConnect</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Local CSS -->
+    <link rel="stylesheet" href="/css/admin_dashboard.css">   
+</head>
+<body>
+
+    <!-- Admin Side Navigation -->
+    <nav class="admin-sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <i class="fa-solid fa-heart-pulse"></i>
+            <span>HealthConnect</span>
+        </div>
+        <ul class="sidebar-nav">
+            <li class="nav-item active">
+                <a href="/admin_dashboard.html">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Dashboard Overview</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin_users.html">
+                    <i class="fa-solid fa-users-gear"></i>
+                    <span>User Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin_reports.html">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                    <span>Analytics & Reports</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin_settings.html">
+                    <i class="fa-solid fa-sliders"></i>
+                    <span>System Settings</span>
+                </a>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <button id="logoutBtn" class="btn-logout">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="admin-main">
+        <!-- Top Header -->
+        <header class="admin-header">
+            <div class="header-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search system logs or users...">
+            </div>
+            <div class="header-actions">
+                <div class="notification-wrapper">
+                    <i class="fa-solid fa-bell"></i>
+                    <span class="badge" id="notificationBadge" style="display:none;">0</span>
+                </div>
+                <div class="admin-profile">
+                    <div class="admin-avatar">A</div>
+                    <span id="adminName">Loading...</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="content-wrapper">
+            <div class="page-title">
+                <h1>Platform Overview</h1>
+                <p>Real-time statistics across the HealthConnect network.</p>
+            </div>
+
+            <!-- Metrics Cards -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon blue">
+                        <i class="fa-solid fa-hospital-user"></i>
+                    </div>
+                    <div class="metric-info">
+                        <p class="metric-label">Total Patients</p>
+                        <h3 class="metric-value" id="totalPatients">--</h3>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon green">
+                        <i class="fa-solid fa-user-doctor"></i>
+                    </div>
+                    <div class="metric-info">
+                        <p class="metric-label">Active Doctors</p>
+                        <h3 class="metric-value" id="totalDoctors">--</h3>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon purple">
+                        <i class="fa-regular fa-calendar-check"></i>
+                    </div>
+                    <div class="metric-info">
+                        <p class="metric-label">Today's Appointments</p>
+                        <h3 class="metric-value" id="todayAppointments">--</h3>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon gold">
+                        <i class="fa-solid fa-sack-dollar"></i>
+                    </div>
+                    <div class="metric-info">
+                        <p class="metric-label">Total Revenue</p>
+                        <h3 class="metric-value" id="totalRevenue">$0.00</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-section">
+                <div class="chart-container">
+                    <h3>Appointment Trends (Monthly)</h3>
+                    <div class="canvas-wrapper">
+                        <canvas id="appointmentsChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <h3>Revenue Breakdown</h3>
+                    <div class="canvas-wrapper empty-state" id="revenueChartContainer">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <p>Generating Revenue Model...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lower Section -->
+            <div class="two-col-layout">
+                <!-- Recent Activity -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3>Recent System Activity</h3>
+                        <button class="btn-text">View Full Log</button>
+                    </div>
+                    <div class="activity-list" id="activityList">
+                        <!-- Populated via JS -->
+                        <div class="activity-item">
+                            <i class="fa-solid fa-circle-check text-green"></i>
+                            <div class="activity-details">
+                                <p><strong>System</strong> executed daily backup routine.</p>
+                                <span>2 minutes ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Alerts -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3>Critical Alerts</h3>
+                    </div>
+                    <div class="alerts-list">
+                        <div class="alert-item warning">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <div class="alert-text">
+                                <strong>High Traffic Warning</strong>
+                                <p>Appointment bookings exceeded 200/hr threshold.</p>
+                            </div>
+                        </div>
+                        <div class="alert-item danger">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            <div class="alert-text">
+                                <strong>Doctor Verification Pending</strong>
+                                <p>3 new doctor accounts require credential validation.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+    <!-- Local Logic -->
+    <script src="/js/notification_handler.js"></script>
+    <script src="/js/admin_dashboard.js"></script>
+</body>
+
+</html>

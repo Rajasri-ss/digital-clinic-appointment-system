@@ -1,0 +1,239 @@
+:root {
+    --primary: #4f46e5;
+    --primary-dark: #4338ca;
+    --secondary: #64748b;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --success: #10b981;
+    --bg: #f8fafc;
+    --white: #ffffff;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg);
+    margin: 0;
+    color: #1e293b;
+}
+
+.emergency-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: var(--white);
+    min-height: 100vh;
+    box-shadow: 0 0 20px rgba(0,0,0,0.05);
+}
+
+.emergency-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.brand {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--danger);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.badge-emergency {
+    background: #fee2e2;
+    color: #ef4444;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 99px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.btn-close {
+    color: var(--secondary);
+    font-size: 1.25rem;
+    text-decoration: none;
+}
+
+.triage-step {
+    display: none;
+    padding: 2rem;
+    animation: fadeIn 0.3s ease;
+}
+
+.triage-step.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.urgent-banner {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.urgent-banner i {
+    font-size: 3rem;
+    color: var(--danger);
+    margin-bottom: 1rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.urgency-selector {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.urgency-option {
+    border: 1px solid #e2e8f0;
+    padding: 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.urgency-option input {
+    position: absolute;
+    opacity: 0;
+}
+
+.urgency-option span {
+    display: block;
+    font-weight: 600;
+}
+
+.urgency-option small {
+    display: block;
+    font-weight: 400;
+    font-size: 0.75rem;
+    color: var(--secondary);
+}
+
+.urgency-option:has(input:checked) {
+    border-color: var(--primary);
+    background: #f5f3ff;
+}
+
+.urgency-option.low:has(input:checked) { border-color: var(--success); background: #ecfdf5; }
+.urgency-option.critical:has(input:checked) { border-color: var(--danger); background: #fef2f2; }
+
+.action-footer {
+    margin-top: 3rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+
+.btn-next, .btn-book {
+    background: var(--danger);
+    color: white;
+    flex: 1;
+}
+
+.btn-next:hover, .btn-book:hover {
+    background: #dc2626;
+}
+
+.btn-back {
+    background: #f1f5f9;
+    color: var(--secondary);
+}
+
+.clinic-grid {
+    margin-top: 1.5rem;
+    display: grid;
+    gap: 1rem;
+}
+
+.clinic-card {
+    padding: 1rem;
+    background: var(--white);
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.clinic-card.selected {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary);
+}
+
+.summary-card {
+    background: #f8fafc;
+    padding: 1.5rem;
+    border-radius: 12px;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+}
+
+.summary-item .label { color: var(--secondary); }
+
+.modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 400px;
+}
+
+.success-icon {
+    font-size: 4rem;
+    color: var(--success);
+    margin-bottom: 1rem;
+}
+
+.ref-code {
+    background: #f1f5f9;
+    padding: 1rem;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 1.25rem;
+    margin: 1.5rem 0;
+}

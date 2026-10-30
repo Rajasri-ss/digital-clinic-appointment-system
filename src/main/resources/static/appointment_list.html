@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Appointments - HealthConnect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/appointment_list.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="patient_dashboard.html" class="logo"><i class="fas fa-heartbeat"></i> HealthConnect</a>
+        <a href="profile.html" style="color: var(--dark); text-decoration: none; font-weight: 600;">My Profile</a>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h2>Appointments</h2>
+            <a href="doctor_search.html" class="btn-new"><i class="fas fa-plus"></i> Book New</a>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('UPCOMING')">Upcoming</button>
+            <button class="tab-btn" onclick="switchTab('COMPLETED')">Completed</button>
+            <button class="tab-btn" onclick="switchTab('CANCELLED')">Cancelled</button>
+        </div>
+
+        <div id="loader" class="loader"></div>
+        <div id="appointmentsList"></div>
+
+    </div>
+
+    <script src="js/appointment_list.js"></script>
+<script src="/js/notification_handler.js"></script>
+</body>
+
+</html>

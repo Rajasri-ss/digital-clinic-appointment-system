@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment - HealthConnect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/appointment_booking.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="patient_dashboard.html" class="logo"><i class="fas fa-heartbeat"></i> HealthConnect</a>
+        <a href="appointment_list.html" style="color: var(--dark); text-decoration: none; font-weight: 600;">My
+            Appointments</a>
+    </nav>
+
+    <div class="booking-container">
+        <div class="card">
+            <div id="errorAlert"></div>
+
+            <div class="doctor-banner" id="doctorBanner">
+                <img src="https://ui-avatars.com/api/?name=Doc&background=f3f4f6" id="docImg" alt="Doctor">
+                <div class="doctor-info">
+                    <h2 id="docName">Loading Doctor...</h2>
+                    <p id="docSpecialty">...</p>
+                    <span class="tag" id="docFee">₹... / Consultation</span>
+                </div>
+            </div>
+
+            <form id="bookingForm">
+                <h3 class="step-title"><i class="fas fa-calendar-alt" style="color: var(--primary);"></i> 1. Select Date
+                    & Location</h3>
+                <div class="form-group">
+                    <label class="form-label">Clinic Location</label>
+                    <select id="locationSelect" class="form-control" required>
+                        <option value="">Select a location...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Date</label>
+                    <input type="date" id="appointmentDate" class="form-control" required>
+                </div>
+
+                <div class="loader" id="slotsLoader"></div>
+
+                <h3 class="step-title" style="margin-top: 2rem;"><i class="fas fa-clock"
+                        style="color: var(--primary);"></i> 2. Available Time Slots</h3>
+                <div id="slotsGrid" class="slots-grid">
+                    <p style="grid-column: 1/-1; color: #6B7280; text-align: center; padding: 2rem;">Please select a
+                        date and location to view slots.</p>
+                </div>
+
+                <h3 class="step-title" style="margin-top: 2rem;"><i class="fas fa-notes-medical"
+                        style="color: var(--primary);"></i> 3. Patient Details</h3>
+                <div class="form-group">
+                    <label class="form-label">Consultation Type</label>
+                    <select id="consultationType" class="form-control" required>
+                        <option value="IN_PERSON">In-Patient (Clinic Visit)</option>
+                        <!-- <option value="VIDEO">Video Consultation</option> -->
+                        <option value="PHONE">Phone Consultation</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Reason for Visit</label>
+                    <textarea id="reason" class="form-control" rows="3" placeholder="Briefly describe your symptoms..."
+                        required></textarea>
+                </div>
+
+                <div class="form-group"
+                    style="display: flex; align-items: center; gap: 0.5rem; background: #FEF2F2; padding: 1rem; border-radius: 8px;">
+                    <input type="checkbox" id="isEmergency" style="width: 18px; height: 18px;">
+                    <label for="isEmergency" style="color: var(--danger); font-weight: 600; cursor: pointer;">This is an
+                        Emergency (Triage Required)</label>
+                </div>
+
+                <div id="triageSection"
+                    style="display: none; background: #FEF2F2; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; border: 1px solid #FCA5A5;">
+                    <h4 style="color: var(--danger); margin-bottom: 1rem;"><i class="fas fa-exclamation-triangle"></i>
+                        Emergency Triage Details</h4>
+                    <div class="form-group">
+                        <label class="form-label" style="color: #991B1B;">Urgency Level</label>
+                        <select id="urgencyLevel" class="form-control">
+                            <option value="CRITICAL">Critical (Life-threatening)</option>
+                            <option value="HIGH">High (Urgent)</option>
+                            <option value="MEDIUM">Medium (Standard Emergency)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" style="color: #991B1B;">Chief Complaint*</label>
+                        <input type="text" id="chiefComplaint" class="form-control"
+                            placeholder="e.g. Severe chest pain">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" style="color: #991B1B;">Additional Symptoms</label>
+                        <textarea id="symptoms" class="form-control" rows="2"
+                            placeholder="e.g. Shortness of breath, sweating"></textarea>
+                    </div>
+                    <p style="font-size: 0.85rem; color: #991B1B; margin-top: 0.5rem;"><i
+                            class="fas fa-info-circle"></i> Note: Emergency appointments may be allocated outside
+                        regular slots.</p>
+                </div>
+
+                <button type="submit" class="btn-primary" id="submitBtn" disabled>
+                    Confirm Booking <i class="fas fa-arrow-right" style="margin-left: 0.5rem;"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="success-overlay" id="successModal">
+        <div class="success-card">
+            <div class="success-icon"><i class="fas fa-check"></i></div>
+            <h2 style="margin-bottom: 0.5rem; color: var(--dark);">Appointment Booked!</h2>
+            <p style="color: #6B7280; margin-bottom: 1.5rem;">Your booking reference is <strong id="bookingRef"
+                    style="color: var(--dark);">#...</strong></p>
+            <button onclick="window.location.href='appointment_list.html'" class="btn-primary"
+                style="padding: 0.8rem 1.5rem;">View My Appointments</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="/js/notification_handler.js"></script>
+    <script src="/js/appointment_booking.js"></script>
+</body>
+
+</html>

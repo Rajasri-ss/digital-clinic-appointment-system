@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Profile - HealthConnect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/doctor_profile.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <i class="fas fa-heartbeat"></i> HealthConnect
+        </a>
+        <a href="doctor_search.html" style="color: var(--dark); text-decoration: none; font-weight: 600;"><i
+                class="fas fa-arrow-left"></i> Back to Search</a>
+    </nav>
+
+    <div class="profile-container">
+        <!-- Main Info -->
+        <main>
+            <div class="card doc-header">
+                <img src="" id="docImage" class="doc-image" alt="Doctor">
+                <div class="doc-title">
+                    <h1 id="docName">Loading...</h1>
+                    <h3 id="docSpecialty">...</h3>
+                    <div class="badge-list">
+                        <div class="badge"><i class="fas fa-star" style="color: #F59E0B;"></i> <span
+                                id="docRating">-</span></div>
+                        <div class="badge"><i class="fas fa-briefcase"></i> <span id="docExp">-</span> Years Exp.</div>
+                        <div class="badge"><i class="fas fa-language"></i> <span id="docLang">English</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="section-title">About Doctor</h2>
+                <p class="about-text" id="docAbout">Loading profile information...</p>
+            </div>
+
+            <div class="card">
+                <h2 class="section-title">Clinic Locations</h2>
+                <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                    <i class="fas fa-map-marker-alt"
+                        style="color: var(--danger); font-size: 1.5rem; margin-top: 5px;"></i>
+                    <div>
+                        <h4 style="font-size: 1.1rem; margin-bottom: 0.5rem;" id="clinicName">Primary Clinic</h4>
+                        <p style="color: #6B7280; margin-bottom: 1rem;" id="clinicAddress">Address loading...</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Booking Widget -->
+        <aside>
+            <div class="card booking-card">
+                <div class="price-row">
+                    <div>
+                        <p style="color: #6B7280; font-size: 0.9rem; font-weight: 600; text-transform: uppercase;">
+                            Consultation Fee</p>
+                    </div>
+                    <div class="fee">$<span id="docFee">0</span></div>
+                </div>
+
+                <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">1. Select Date</h3>
+                <div class="date-picker">
+                    <div class="date-box active">
+                        <span>Today</span>
+                        <strong>18</strong>
+                    </div>
+                    <div class="date-box">
+                        <span>Tomorrow</span>
+                        <strong>19</strong>
+                    </div>
+                    <div class="date-box">
+                        <span>Wed</span>
+                        <strong>20</strong>
+                    </div>
+                    <div class="date-box">
+                        <span>Thu</span>
+                        <strong>21</strong>
+                    </div>
+                </div>
+
+                <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">2. Select Time</h3>
+                <div class="time-slots">
+                    <div class="slot">09:00 AM</div>
+                    <div class="slot booked">09:30 AM</div>
+                    <div class="slot active">10:00 AM</div>
+                    <div class="slot">11:00 AM</div>
+                    <div class="slot">02:00 PM</div>
+                    <div class="slot">03:30 PM</div>
+                </div>
+
+                <button class="btn-full" onclick="bookAppointment()">Book Appointment</button>
+            </div>
+        </aside>
+    </div>
+
+    <script src="js/doctor_profile.js"></script>
+<script src="/js/notification_handler.js"></script>
+</body>
+
+</html>

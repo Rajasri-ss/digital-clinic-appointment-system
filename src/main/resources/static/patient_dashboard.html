@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard - HealthConnect</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="./css/patient_dashboard.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <i class="fas fa-heartbeat"></i> HealthConnect
+        </a>
+        <div class="nav-right">
+            <div class="notification-icon-container">
+                <i class="fa-solid fa-bell"></i>
+                <span class="notification-badge">0</span>
+            </div>
+            <div class="user-profile">
+                <div class="user-avatar" id="userInitial">P</div>
+                <span id="userName">Patient User</span>
+            </div>
+            <button class="btn-logout" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="patient_dashboard.html" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="doctor_search.html"><i class="fas fa-search"></i> Find Doctors</a></li>
+                <li><a href="appointment_list.html"><i class="fas fa-calendar-check"></i> My Appointments</a></li>
+                <li><a href="medical_records.html"><i class="fas fa-notes-medical"></i> Medical Records</a></li>
+                <li><a href="profile.html"><i class="fas fa-user-circle"></i> Profile Settings</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <div>
+                    <h1>Welcome back, <span id="welcomeName">Patient</span>!</h1>
+                    <p>Here is your health overview for today.</p>
+                </div>
+                <a href="doctor_search.html" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Book Appointment
+                </a>
+            </div>
+
+            <!-- Stats -->
+            <div class="dashboard-grid">
+                <div class="card stat-card">
+                    <div class="stat-icon stat-icon-primary">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>2</h3>
+                        <p>Upcoming Appointments</p>
+                    </div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-icon stat-icon-secondary">
+                        <i class="fas fa-file-medical"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>14</h3>
+                        <p>Medical Records</p>
+                    </div>
+                </div>
+                <!-- Emergency Action -->
+                <div class="card emergency-card" onclick="window.location.href='emergency_appointment.html'">
+                    <div>
+                        <i class="fas fa-ambulance"></i>
+                        <h3>Emergency</h3>
+                        <p>Book priority slot</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity / Upcoming -->
+            <div class="dashboard-grid dashboard-grid-2col">
+                <div class="card">
+                    <div class="list-header">
+                        <h3>Upcoming Appointments</h3>
+                        <a href="appointment_list.html">View All</a>
+                    </div>
+                    <div class="appointment-item">
+                        <div class="appointment-doc">
+                            <div class="doc-avatar"></div>
+                            <div class="doc-info">
+                                <h4>Dr. Sarah Jenkins</h4>
+                                <p>Cardiologist • Apollo Hospital</p>
+                            </div>
+                        </div>
+                        <div class="appointment-time">
+                            <p class="appointment-date">Oct 24, 2023</p>
+                            <p class="appointment-slot">10:00 AM - 10:30 AM</p>
+                            <span class="badge badge-upcoming">Confirmed</span>
+                        </div>
+                    </div>
+                    <div class="appointment-item">
+                        <div class="appointment-doc">
+                            <div class="doc-avatar"></div>
+                            <div class="doc-info">
+                                <h4>Dr. Michael Chen</h4>
+                                <p>Dermatologist • City Clinic</p>
+                            </div>
+                        </div>
+                        <div class="appointment-time">
+                            <p class="appointment-date">Oct 28, 2023</p>
+                            <p class="appointment-slot">02:00 PM - 02:30 PM</p>
+                            <span class="badge badge-upcoming">Confirmed</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Snapshot -->
+                <div class="card">
+                    <div class="list-header">
+                        <h3>Health Snapshot</h3>
+                    </div>
+                    <div class="health-item">
+                        <p class="health-label">Blood Group</p>
+                        <p class="health-value">O+ Positive</p>
+                    </div>
+                    <div class="health-item">
+                        <p class="health-label">Allergies</p>
+                        <p class="health-value">Penicillin, Peanuts</p>
+                    </div>
+                    <div class="health-item">
+                        <p class="health-label">Emergency Contact</p>
+                        <p class="health-value">+1 234 567 8900</p>
+                        <p class="health-subtext">(Jane Doe - Spouse)</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- WebSocket Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+    <!-- Application Scripts -->
+    <script src="/js/notification_handler.js"></script>
+    <script src="/js/patient_dashboard.js"></script>
+</body>
+
+</html>

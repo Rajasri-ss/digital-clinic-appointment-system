@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Care - HealthConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/emergency.css">
+</head>
+<body>
+    <div class="emergency-container">
+        <header class="emergency-header">
+            <div class="brand">
+                <i class="fas fa-heartbeat"></i> HealthConnect <span class="badge-emergency">Emergency Care</span>
+            </div>
+            <a href="patient_dashboard.html" class="btn-close"><i class="fas fa-times"></i></a>
+        </header>
+
+        <main class="triage-flow">
+            <!-- Step 1: Initial Assessment -->
+            <section id="step-1" class="triage-step active">
+                <div class="urgent-banner">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h2>Emergency Triage</h2>
+                    <p>Please provide quick details for immediate assistance.</p>
+                </div>
+
+                <div class="triage-form">
+                    <div class="form-group">
+                        <label>What is the chief complaint?</label>
+                        <select id="chiefComplaint" class="form-control" required>
+                            <option value="">Select Primary Issue</option>
+                            <option value="Chest Pain">Severe Chest Pain</option>
+                            <option value="Breathing Difficulty">Difficulty Breathing</option>
+                            <option value="Severe Injury">Major Injury / Bleeding</option>
+                            <option value="High Fever">Extremely High Fever</option>
+                            <option value="Other">Other Urgent Matter</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group mt-4">
+                        <label>Urgency Level</label>
+                        <div class="urgency-selector">
+                            <label class="urgency-option low">
+                                <input type="radio" name="urgency" value="LOW">
+                                <span>Low <small>Non-life threatening</small></span>
+                            </label>
+                            <label class="urgency-option medium">
+                                <input type="radio" name="urgency" value="MEDIUM">
+                                <span>Medium <small>Requires attention</small></span>
+                            </label>
+                            <label class="urgency-option high">
+                                <input type="radio" name="urgency" value="HIGH" checked>
+                                <span>High <small>Urgent Care</small></span>
+                            </label>
+                            <label class="urgency-option critical">
+                                <input type="radio" name="urgency" value="CRITICAL">
+                                <span>Critical <small>Immediate priority</small></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="action-footer">
+                        <button class="btn btn-next" onclick="nextStep(2)">Proceed to Location <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 2: Location & Doctor -->
+            <section id="step-2" class="triage-step">
+                <h2>Select Nearest Clinic</h2>
+                <div class="location-picker">
+                    <button class="btn btn-location" onclick="useCurrentLocation()">
+                        <i class="fas fa-location-arrow"></i> Use My Current Location
+                    </button>
+                    <div id="clinicList" class="clinic-grid">
+                        <!-- Loaded by JS -->
+                    </div>
+                </div>
+                <div class="action-footer">
+                    <button class="btn btn-back" onclick="prevStep(1)">Back</button>
+                    <button class="btn btn-next" onclick="nextStep(3)">Confirm Details</button>
+                </div>
+            </section>
+
+            <!-- Step 3: Final Confirmation -->
+            <section id="step-3" class="triage-step">
+                <h2>Confirm Emergency Booking</h2>
+                <div class="summary-card">
+                    <div class="summary-item">
+                        <span class="label">Complaint:</span>
+                        <span id="summary-complaint">---</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Priority:</span>
+                        <span id="summary-priority">---</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Location:</span>
+                        <span id="summary-location">---</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Doctor:</span>
+                        <span id="summary-doctor">---</span>
+                    </div>
+                </div>
+                <div class="form-group mt-4">
+                    <label>Additional Symptoms (Optional)</label>
+                    <textarea id="extraSymptoms" class="form-control" rows="3" placeholder="Any other details for the medical team..."></textarea>
+                </div>
+                <div class="action-footer">
+                    <button class="btn btn-back" onclick="prevStep(2)">Back</button>
+                    <button id="bookBtn" class="btn btn-book" onclick="bookEmergency()">Book Now <i class="fas fa-ambulance"></i></button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+            <h2>Emergency Confirmed</h2>
+            <p>Your emergency slot has been allocated. Please head to the clinic immediately.</p>
+            <div id="bookingRef" class="ref-code">REF: #123456</div>
+            <button class="btn btn-primary" onclick="window.location.href='patient_dashboard.html'">Go to Dashboard</button>
+        </div>
+    </div>
+
+    <script src="js/emergency_appointment.js"></script>
+</body>
+</html>

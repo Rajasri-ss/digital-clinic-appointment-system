@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Process Appointment - HealthConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: white;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--primary);
+        }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+
+        .card h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-dark);
+        }
+
+        /* Patient Card */
+        .patient-card {
+            position: sticky;
+            top: 5rem;
+        }
+
+        .patient-info-item {
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .patient-info-item label {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .patient-info-item span {
+            font-weight: 600;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.625rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .btn {
+            padding: 0.625rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+
+        .btn-secondary { background: #e2e8f0; color: var(--text-dark); }
+        .btn-secondary:hover { background: #cbd5e1; }
+
+        .btn-success { background: var(--secondary); color: white; }
+        .btn-success:hover { background: #059669; transform: translateY(-1px); }
+
+        .w-100 { width: 100%; }
+        .mt-3 { margin-top: 1rem; }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .badge-scheduled { background: #dbeafe; color: #1e40af; }
+        .badge-in-progress { background: #fef3c7; color: #92400e; }
+        .badge-completed { background: #dcfce7; color: #166534; }
+        .badge-cancelled { background: #fee2e2; color: #991b1b; }
+        .badge-no-show { background: #f3f4f6; color: #374151; }
+
+        #alertContainer {
+            position: fixed;
+            top: 5rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+
+        .toast {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            animation: slideIn 0.3s ease-out;
+            border-left: 4px solid var(--primary);
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .complaint-box {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            background: #fffbeb;
+            border-radius: 8px;
+            border: 1px solid #fef3c7;
+        }
+
+        .complaint-box label {
+            font-size: 0.75rem;
+            color: #92400e;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .complaint-box p {
+            font-size: 0.9rem;
+            margin: 0;
+            color: var(--text-dark);
+        }
+
+        @media (max-width: 992px) {
+            .layout-grid {
+                grid-template-columns: 1fr;
+            }
+            .patient-card {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-heartbeat"></i> HealthConnect
+        </div>
+        <div class="nav-links">
+            <a href="doctor_dashboard.html" class="btn btn-secondary">Dashboard</a>
+        </div>
+    </nav>
+
+    <div id="alertContainer"></div>
+
+    <main class="container">
+        <header class="page-header">
+            <div>
+                <a href="doctor_dashboard.html" class="back-link">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+                <h1 style="margin-top: 0.5rem;">Process Appointment</h1>
+            </div>
+            <div id="statusBadge">
+                <span class="badge badge-scheduled">Loading...</span>
+            </div>
+        </header>
+
+        <div class="layout-grid">
+            <!-- Sidebar: Patient Details -->
+            <aside>
+                <div class="card patient-card">
+                    <h2><i class="fas fa-user"></i> Patient Details</h2>
+                    <div id="patientInfo">
+                        <p style="color: var(--text-muted);">Loading patient details...</p>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content: Diagnosis, Notes, and Status -->
+            <div class="main-content">
+                <!-- Diagnosis & Doctor Notes -->
+                <div class="card">
+                    <h2><i class="fas fa-file-medical text-primary"></i> Clinical Assessment</h2>
+                    <form id="assessmentForm" onsubmit="saveAssessment(event)">
+                        <div class="form-group">
+                            <label>Diagnosis</label>
+                            <textarea id="diagnosis" class="form-control" rows="3" placeholder="Enter primary diagnosis..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Doctor's Notes</label>
+                            <textarea id="doctorNotes" class="form-control" rows="5" placeholder="Enter clinical observations, examination findings, and recommendations..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Update Appointment Status</label>
+                            <select id="status" class="form-control" required>
+                                <option value="">-- Select Status --</option>
+                                <option value="SCHEDULED">Scheduled</option>
+                                <option value="IN_PROGRESS">In Progress</option>
+                                <option value="COMPLETED">Completed</option>
+                                <option value="NO_SHOW">No Show</option>
+                                <option value="CANCELLED">Cancelled</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="fas fa-save"></i> Save Assessment & Update Status
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/app_updation.js"></script>
+    <script src="/js/notification_handler.js"></script>
+</body>
+</html>

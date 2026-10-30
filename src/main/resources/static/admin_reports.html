@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Analytics & Reports - HealthConnect</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="/css/admin_reports.css">
+</head>
+
+<body>
+    <nav class="admin-sidebar">
+        <div class="sidebar-brand">
+            <i class="fa-solid fa-heart-pulse"></i>
+            <span>HealthConnect</span>
+        </div>
+        <ul class="sidebar-nav">
+            <li class="nav-item">
+                <a href="/admin_dashboard.html">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Dashboard Overview</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin_users.html">
+                    <i class="fa-solid fa-users-gear"></i>
+                    <span>User Management</span>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a href="/admin_reports.html">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                    <span>Analytics & Reports</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin_settings.html">
+                    <i class="fa-solid fa-sliders"></i>
+                    <span>System Settings</span>
+                </a>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <button id="logoutBtn" class="btn-logout">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="admin-main">
+        <header class="admin-header">
+            <div class="header-title">
+                <h1>Analytics & Reports</h1>
+                <p>Comprehensive system insights and data exports</p>
+            </div>
+            <div class="header-actions">
+                <div class="notification-wrapper">
+                    <i class="fa-solid fa-bell"></i>
+                    <span class="badge" id="notificationBadge" style="display:none;">0</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="content-wrapper">
+            <!-- Metrics Overview -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon blue">
+                        <i class="fa-solid fa-calendar-check"></i>
+                    </div>
+                    <div class="metric-info">
+                        <p class="metric-label">Total Appointments</p>
+                        <h3 class="metric-value" id="totalAppointments">--</h3>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon green">
+                        <i class="fa-solid fa-check-circle"></i>
+                    </div>
+                    <div class="metric-info">
+                        <p class="metric-label">Completed</p>
+                        <h3 class="metric-value" id="completedAppointments">--</h3>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon red">
+                        <i class="fa-solid fa-times-circle"></i>
+                    </div>
+                    <div class="metric-info">
+                        <p class="metric-label">Cancelled</p>
+                        <h3 class="metric-value" id="cancelledAppointments">--</h3>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon gold">
+                        <i class="fa-solid fa-dollar-sign"></i>
+                    </div>
+                    <div class="metric-info">
+                        <p class="metric-label">Total Revenue</p>
+                        <h3 class="metric-value" id="totalRevenue">$0.00</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Report Generation -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h3>Generate Reports</h3>
+                </div>
+                <div class="report-grid">
+                    <div class="report-card">
+                        <i class="fa-solid fa-file-pdf"></i>
+                        <h4>Appointment Report</h4>
+                        <p>Detailed appointment statistics</p>
+                        <button class="btn-primary" onclick="generateReport('appointments')">
+                            <i class="fa-solid fa-download"></i> Generate
+                        </button>
+                    </div>
+                    <div class="report-card">
+                        <i class="fa-solid fa-file-excel"></i>
+                        <h4>Revenue Report</h4>
+                        <p>Financial summary and breakdown</p>
+                        <button class="btn-primary" onclick="generateReport('revenue')">
+                            <i class="fa-solid fa-download"></i> Generate
+                        </button>
+                    </div>
+                    <div class="report-card">
+                        <i class="fa-solid fa-file-csv"></i>
+                        <h4>User Activity Report</h4>
+                        <p>User engagement metrics</p>
+                        <button class="btn-primary" onclick="generateReport('users')">
+                            <i class="fa-solid fa-download"></i> Generate
+                        </button>
+                    </div>
+                    <div class="report-card">
+                        <i class="fa-solid fa-file-chart-line"></i>
+                        <h4>System Performance</h4>
+                        <p>Technical metrics and uptime</p>
+                        <button class="btn-primary" onclick="generateReport('system')">
+                            <i class="fa-solid fa-download"></i> Generate
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/js/notification_handler.js"></script>
+    <script src="/js/admin_reports.js"></script>
+</body>
+
+</html>

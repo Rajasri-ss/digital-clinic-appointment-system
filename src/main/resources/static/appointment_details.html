@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Details - HealthConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/appointment_details.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-heartbeat"></i> HealthConnect
+        </div>
+        <div class="nav-links">
+            <a href="patient_dashboard.html">Dashboard</a>
+            <a href="appointment_list.html" class="active">Appointments</a>
+            <button id="logoutBtn" class="btn btn-outline-danger">Logout</button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <header class="page-header">
+            <a href="appointment_list.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Appointments</a>
+            <h1>Appointment Details</h1>
+        </header>
+
+        <div id="loader" class="loader-container">
+            <div class="spinner"></div>
+            <p>Loading details...</p>
+        </div>
+
+        <div id="error-message" class="alert alert-danger hidden"></div>
+
+        <div id="details-content" class="details-grid hidden">
+            <!-- Left Column: Info & Actions -->
+            <div class="main-info">
+                <div class="card status-card">
+                    <div class="status-header">
+                        <h2>Status Timeline</h2>
+                        <span id="appointment-status-badge" class="badge">Loading</span>
+                    </div>
+                    <div class="timeline" id="status-timeline">
+                        <!-- Timeline items injected here -->
+                    </div>
+                </div>
+
+                <div class="card info-card">
+                    <h2><i class="fas fa-stethoscope"></i> Clinical Information</h2>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Doctor</label>
+                            <p id="doctor-name">--</p>
+                        </div>
+                        <div class="info-item">
+                            <label>Specialty</label>
+                            <p id="doctor-specialty">--</p>
+                        </div>
+                        <div class="info-item">
+                            <label>Date & Time</label>
+                            <div class="datetime-badge">
+                                <i class="far fa-calendar-alt"></i> <span id="appointment-date">--</span>
+                                <i class="far fa-clock ml-2"></i> <span id="appointment-time">--</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <label>Reason for Visit</label>
+                            <p id="appointment-reason">--</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="actions-panel mt-4" id="action-buttons">
+                    <!-- Actions injected here based on status -->
+                </div>
+            </div>
+
+            <!-- Right Column: Patient & QR -->
+            <div class="side-info">
+                <div class="card patient-card">
+                    <h2><i class="fas fa-user-circle"></i> Patient Info</h2>
+                    <p id="patient-name" class="patient-name">--</p>
+                    <p id="patient-contact" class="text-muted"><i class="fas fa-phone"></i> --</p>
+                </div>
+
+                <div class="card qr-card">
+                    <h2><i class="fas fa-qrcode"></i> Entry Pass</h2>
+                    <p class="text-sm text-muted mb-3">Present this code at the clinic reception.</p>
+                    <div class="qr-container">
+                        <img id="qr-code-img" src="" alt="Appointment QR Code" class="qr-code">
+                        <div id="qr-fallback" class="qr-fallback hidden">
+                            <i class="fas fa-qrcode"></i>
+                            <p>QR Code Available Upon Confirmation</p>
+                        </div>
+                    </div>
+                    <p class="appointment-id mt-2">ID: <span id="appointment-id-display">--</span></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Cancel Modal -->
+    <div id="cancelModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Cancel Appointment</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to cancel this appointment? This action cannot be undone.</p>
+                <div class="form-group mt-3">
+                    <label>Reason (Optional)</label>
+                    <textarea id="cancel-reason" class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeCancelModal()">Keep Appointment</button>
+                <button class="btn btn-danger" id="confirmCancelBtn">Yes, Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/appointment_details.js"></script>
+<script src="/js/notification_handler.js"></script>
+</body>
+
+</html>

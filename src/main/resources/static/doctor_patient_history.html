@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient History - HealthConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/doctor_patient_history.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-user-md"></i> DoctorPortal
+        </div>
+        <div class="nav-links">
+            <a href="doctor_dashboard.html">Dashboard</a>
+            <a href="doctor_schedule.html">My Schedule</a>
+            <a href="doctor_patients.html" class="active">My Patients</a>
+            <button id="logoutBtn" class="btn btn-outline-danger">Logout</button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <header class="page-header">
+            <a href="doctor_patients.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Patients</a>
+            <h1 class="mt-2" id="headerPatientName">Patient History</h1>
+        </header>
+
+        <div id="loader" class="loader">
+            <div class="spinner"></div>
+            <p>Loading patient data...</p>
+        </div>
+
+        <div id="contentGrid" class="layout-grid hidden">
+            <!-- Left col: Vitals entry and list -->
+            <div class="col-left">
+                <div class="card vitals-form-card">
+                    <h2><i class="fas fa-heartbeat text-danger"></i> Record Vitals</h2>
+                    <form id="vitalsForm" onsubmit="event.preventDefault(); submitVitals();">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Height (cm)</label>
+                                <input type="number" step="0.1" id="vitalHeight" class="form-control"
+                                    oninput="calculateBMI()">
+                            </div>
+                            <div class="form-group">
+                                <label>Weight (kg)</label>
+                                <input type="number" step="0.1" id="vitalWeight" class="form-control"
+                                    oninput="calculateBMI()">
+                            </div>
+                            <div class="form-group">
+                                <label>BMI (Auto)</label>
+                                <input type="text" id="vitalBMI" class="form-control" readonly
+                                    style="background:#f3f4f6; color:var(--text-muted)">
+                            </div>
+                            <div class="form-group">
+                                <label>BP (mmHg)</label>
+                                <input type="text" id="vitalBP" class="form-control" placeholder="120/80">
+                            </div>
+                            <div class="form-group">
+                                <label>Heart Rate</label>
+                                <input type="number" id="vitalHR" class="form-control" placeholder="bpm">
+                            </div>
+                            <div class="form-group">
+                                <label>Temp (°C)</label>
+                                <input type="number" step="0.1" id="vitalTemp" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>SpO2 (%)</label>
+                                <input type="number" id="vitalSpo2" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Resp. Rate</label>
+                                <input type="number" id="vitalRR" class="form-control" placeholder="/min">
+                            </div>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label>Notes</label>
+                            <textarea id="vitalNotes" class="form-control" rows="2"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3 w-100" id="btnSaveVitals">Save Vitals</button>
+                    </form>
+                </div>
+
+                <div class="card past-vitals">
+                    <h2>Past Vitals</h2>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>BP</th>
+                                    <th>HR</th>
+                                    <th>Temp</th>
+                                    <th>Weight</th>
+                                    <th>BMI</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pastVitalsTable">
+                                <!-- JS Injection -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right col: Timeline / Prescription List -->
+            <div class="col-right">
+                <div class="quick-actions">
+                    <button class="btn btn-secondary w-100" id="btnNewPrescription" onclick="openPrescribe()">
+                        <i class="fas fa-plus"></i> New Prescription
+                    </button>
+                    <button class="btn btn-outline-primary w-100 mt-2" onclick="viewLabReports()">
+                        <i class="fas fa-eye"></i> View Lab Reports
+                    </button>
+                </div>
+
+                <div class="card mt-4 timeline-card">
+                    <h2><i class="fas fa-history text-primary"></i> Appointment Timeline</h2>
+                    <div class="timeline" id="appointmentTimeline">
+                        <!-- JS Injection -->
+                    </div>
+                </div>
+
+                <div class="card mt-4 p-list-card">
+                    <h2><i class="fas fa-file-prescription text-primary"></i> Past Prescriptions</h2>
+                    <div id="pastPrescriptionsList">
+                        <!-- JS Injection -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/doctor_patient_history.js"></script>
+<script src="/js/notification_handler.js"></script>
+</body>
+
+</html>

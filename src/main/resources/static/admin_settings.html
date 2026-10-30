@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - System Settings - HealthConnect</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="/css/admin_settings.css">
+</head>
+
+<body>
+    <nav class="admin-sidebar">
+        <div class="sidebar-brand">
+            <i class="fa-solid fa-heart-pulse"></i>
+            <span>HealthConnect</span>
+        </div>
+        <ul class="sidebar-nav">
+            <li class="nav-item">
+                <a href="/admin_dashboard.html">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Dashboard Overview</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin_users.html">
+                    <i class="fa-solid fa-users-gear"></i>
+                    <span>User Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin_reports.html">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                    <span>Analytics & Reports</span>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a href="/admin_settings.html">
+                    <i class="fa-solid fa-sliders"></i>
+                    <span>System Settings</span>
+                </a>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <button id="logoutBtn" class="btn-logout">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="admin-main">
+        <header class="admin-header">
+            <div class="header-title">
+                <h1>System Settings</h1>
+                <p>Configure system-wide preferences and parameters</p>
+            </div>
+            <div class="header-actions">
+                <div class="notification-wrapper">
+                    <i class="fa-solid fa-bell"></i>
+                    <span class="badge" id="notificationBadge" style="display:none;">0</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="content-wrapper">
+            <form id="settingsForm">
+                <!-- Appointment Settings -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3><i class="fa-solid fa-calendar"></i> Appointment Settings</h3>
+                    </div>
+                    <div class="settings-grid">
+                        <div class="form-group">
+                            <label>Default Appointment Duration (minutes)</label>
+                            <input type="number" id="appointmentDuration" class="form-control" value="30" min="15" max="120">
+                        </div>
+                        <div class="form-group">
+                            <label>Max Appointments Per Day</label>
+                            <input type="number" id="maxAppointmentsPerDay" class="form-control" value="20" min="1" max="100">
+                        </div>
+                        <div class="form-group">
+                            <label>Booking Window (days in advance)</label>
+                            <input type="number" id="bookingWindow" class="form-control" value="30" min="1" max="90">
+                        </div>
+                        <div class="form-group">
+                            <label>Cancellation Window (hours before)</label>
+                            <input type="number" id="cancellationWindow" class="form-control" value="24" min="1" max="72">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notification Settings -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3><i class="fa-solid fa-bell"></i> Notification Settings</h3>
+                    </div>
+                    <div class="settings-list">
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Email Notifications</h4>
+                                <p>Send appointment confirmations and reminders via email</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="emailNotifications" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>SMS Notifications</h4>
+                                <p>Send appointment reminders via SMS</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="smsNotifications" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>WhatsApp Notifications</h4>
+                                <p>Send notifications via WhatsApp</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="whatsappNotifications">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Push Notifications</h4>
+                                <p>Send real-time push notifications to mobile apps</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="pushNotifications" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Settings -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3><i class="fa-solid fa-cog"></i> System Configuration</h3>
+                    </div>
+                    <div class="settings-grid">
+                        <div class="form-group">
+                            <label>System Timezone</label>
+                            <select id="timezone" class="form-control">
+                                <option value="Asia/Kolkata">Asia/Kolkata (IST)</option>
+                                <option value="America/New_York">America/New_York (EST)</option>
+                                <option value="Europe/London">Europe/London (GMT)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Date Format</label>
+                            <select id="dateFormat" class="form-control">
+                                <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+                                <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                                <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Currency</label>
+                            <select id="currency" class="form-control">
+                                <option value="INR">INR (₹)</option>
+                                <option value="USD">USD ($)</option>
+                                <option value="EUR">EUR (€)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Language</label>
+                            <select id="language" class="form-control">
+                                <option value="en">English</option>
+                                <option value="hi">Hindi</option>
+                                <option value="es">Spanish</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Save Button -->
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary">Reset to Defaults</button>
+                    <button type="submit" class="btn-primary">
+                        <i class="fa-solid fa-save"></i> Save Settings
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script src="/js/notification_handler.js"></script>
+    <script src="/js/admin_settings.js"></script>
+</body>
+
+</html>
